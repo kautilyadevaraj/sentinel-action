@@ -32862,7 +32862,7 @@ async function run() {
     const files = await octokit.rest.pulls.listFiles({
       owner,
       repo,
-      pull_number: prNumber,
+      pull_number: issue_number,
     });
 
     const changedFiles = files.data.map((f) => ({
