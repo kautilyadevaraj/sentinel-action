@@ -1,0 +1,20 @@
+name: Run AI PR Reviewer
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run AI PR Reviewer Action
+        uses: ./action
+        with:
+          message: "🤖 Automated reviewer online — placeholder comment"
