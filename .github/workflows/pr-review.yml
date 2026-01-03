@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   issues: write
+  pull-requests: write
 
 jobs:
   review:
@@ -18,3 +19,5 @@ jobs:
         uses: ./action
         with:
           message: "🤖 Automated reviewer online — placeholder comment"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
