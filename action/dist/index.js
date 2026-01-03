@@ -32859,11 +32859,40 @@ async function run() {
     const { owner, repo } = context.repo;
     const issue_number = context.payload.pull_request.number;
 
+    const files = await octokit.rest.pulls.listFiles({
+      owner,
+      repo,
+      pull_number: prNumber,
+    });
+
+    const changedFiles = files.data.map((f) => ({
+      filename: f.filename,
+      additions: f.additions,
+      deletions: f.deletions,
+    }));
+
+    const totalAdditions = changedFiles.reduce((s, f) => s + f.additions, 0);
+    const totalDeletions = changedFiles.reduce((s, f) => s + f.deletions, 0);
+
+    const extensions = new Set(
+      changedFiles.map((f) => f.filename.split(".").pop()).filter(Boolean)
+    );
+
+    const body = `
+    ## 🤖 Sentinel Review
+    
+    **Files changed:** ${changedFiles.length}  
+    **Lines:** +${totalAdditions} / -${totalDeletions}  
+    **File types:** ${[...extensions].join(", ")}
+    
+    _Status: Static analysis only (AI offline)_
+    `;
+
     await octokit.rest.issues.createComment({
       owner,
       repo,
       issue_number,
-      body: message,
+      body,
     });
 
     core.info("PR comment posted successfully");
