@@ -1,0 +1,7 @@
+name: "Sentinel Action"
+description: "Posts an automated review comment on pull requests"
+author: "Kautilya DK"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"

@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   issues: write
+  pull-requests: write
 
 jobs:
   review:
@@ -15,6 +16,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run AI PR Reviewer Action
-        uses: ./action
-        with:
-          message: "🤖 Automated reviewer online — placeholder comment"
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
