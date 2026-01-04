@@ -3,9 +3,13 @@ description: "Posts an automated review comment on pull requests"
 author: "you"
 
 inputs:
-  message:
-    description: "Message to post as PR comment"
+  agent_url:
+    description: "Base URL of ADK agent server"
     required: true
+  agent_app:
+    description: "ADK app name"
+    required: false
+    default: "adk_agent"
 
 runs:
   using: "node20"
