@@ -1,4 +1,4 @@
-name: "AI PR Reviewer"
+name: "Sentinel Action"
 description: "Posts an automated review comment on pull requests"
 author: "you"
 

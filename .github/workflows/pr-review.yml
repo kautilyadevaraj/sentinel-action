@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run AI PR Reviewer Action
-        uses: ./action
+        uses: ./
         with:
           agent_url: "http://139.84.130.76:8000"
           agent_app: "adk_agent"
