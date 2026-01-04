@@ -16,7 +16,38 @@ The AI logic is handled by a **remote backend service** (deployed on Vultr) that
 4. Multiple specialized agents analyze the code in parallel.
 5. A merged review is generated and posted back to the pull request.
 
+### High-level flow
 
+```mermaid
+flowchart LR
+ subgraph GH["GitHub Actions Runner"]
+        B["Action collects PR data + diffs"]
+        A["PR open/update"]
+        C["POST to ADK server /create session"]
+        D["POST to ADK server /run"]
+  end
+ subgraph ADK["ADK Agent Service (Vultr)"]
+        E["SequentialAgent: ParallelAgent + MergerAgent"]
+        F["ParallelAgent runs sub-agents concurrently"]
+        G["ReviewerAgent"]
+        H["SecurityAgent (google_search tool)"]
+        I["StyleAgent"]
+        J["Session state keys"]
+        K["MergerAgent"]
+        L["Return Markdown"]
+  end
+    A --> B
+    B --> C & D
+    D --> E
+    E --> F
+    F --> G & H & I
+    G --> J
+    H --> J
+    I --> J
+    J --> K
+    K --> L
+    L --> M["GitHub Action posts PR comment"]
+```
 
 ## Repository Structure
 
