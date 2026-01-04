@@ -17,8 +17,5 @@ jobs:
 
       - name: Run AI PR Reviewer Action
         uses: ./
-        with:
-          agent_url: "http://139.84.130.76:8000"
-          agent_app: "adk_agent"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
