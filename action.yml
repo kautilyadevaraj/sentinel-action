@@ -1,6 +1,9 @@
 name: "Sentinel Action"
 description: "Posts an automated review comment on pull requests"
 author: "Kautilya DK"
+branding:
+  icon: shield
+  color: purple
 
 runs:
   using: "node20"
