@@ -95,7 +95,7 @@ The backend is responsible for:
 - Accepting pull request diffs
 - Running parallel AI agents (security, quality, style etc.)
 - Returning a structured review in JSON format
-
+- More details can be found here - [README.md](agentic-backend/README.md)
 
 ## Usage
 
@@ -157,4 +157,4 @@ This allows the action to:
 
 ## License
 
-MIT License
+[MIT License](LICENSE.md)
