@@ -54,26 +54,33 @@ Below are diagrams showing how the system behaves. The diagrams use [Mermaid](ht
 
 ```mermaid
 flowchart LR
-  subgraph GH ["GitHub Actions Runner"]
-    A[PR open/update] --> B[Action collects PR data + diffs]
-    B --> C[POST to ADK server /create session]
-    B --> D[POST to ADK server /run]
+ subgraph GH["GitHub Actions Runner"]
+        B["Action collects PR data + diffs"]
+        A["PR open/update"]
+        C["POST to ADK server /create session"]
+        D["POST to ADK server /run"]
   end
-
-  subgraph ADK["ADK Agent Service (Vultr)"]
-    D --> E[SequentialAgent: ParallelAgent + MergerAgent]
-    E --> F[ParallelAgent runs sub-agents concurrently]
-    F --> G[ReviewerAgent]
-    F --> H[SecurityAgent (google_search tool)]
-    F --> I[StyleAgent]
-    G --> J[Session state keys]
+ subgraph ADK["ADK Agent Service (Vultr)"]
+        E["SequentialAgent: ParallelAgent + MergerAgent"]
+        F["ParallelAgent runs sub-agents concurrently"]
+        G["ReviewerAgent"]
+        H["SecurityAgent (google_search tool)"]
+        I["StyleAgent"]
+        J["Session state keys"]
+        K["MergerAgent"]
+        L["Return Markdown"]
+  end
+    A --> B
+    B --> C & D
+    D --> E
+    E --> F
+    F --> G & H & I
+    G --> J
     H --> J
     I --> J
-    J --> K[MergerAgent] 
-    K --> L[Return Markdown]
-  end
-
-  L --> M[GitHub Action posts PR comment]
+    J --> K
+    K --> L
+    L --> M["GitHub Action posts PR comment"]
 ```
 
 ### 2.2 Parallel Agent detail
@@ -107,12 +114,12 @@ sequenceDiagram
 ```mermaid
 graph TD
   subgraph VM
-    Docker[Docker container] --> ADKApp[ADK + FastAPI]
-    Docker --> ReverseProxy[Nginx (optional)]
-    Docker --> Cloudflared[cloudflared Tunnel (optional)]
+    Docker["Docker container"] --> ADKApp["ADK + FastAPI"]
+    Docker --> ReverseProxy["Nginx (optional)"]
+    Docker --> Cloudflared["cloudflared Tunnel (optional)"]
   end
 
-  CI[GitHub Actions] -->|HTTP| Cloudflare
+  CI["GitHub Actions"] -->|HTTP| Cloudflare
   CI -->|HTTP| ReverseProxy
   CI -->|HTTP| ADKApp
 ```
